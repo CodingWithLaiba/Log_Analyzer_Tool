@@ -1,0 +1,5 @@
+GET /api/users 200
+POST /api/login 401
+GET /api/users 200
+BAD LINE HERE
+DELETE /api/user 500
