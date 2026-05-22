@@ -1,0 +1,15 @@
+2024-03-15T14:23:01Z 192.168.1.42 GET /api/users 200 142ms
+2024/03/15 14:23:02 10.0.0.7 POST /api/login 401 89ms
+15-Mar-2024 14:23:04Z 192.168.1.42 GET /api/users/12 200 53ms
+1710512581 10.0.0.8 DELETE /api/user 500 120ms
+2024-03-15T14:23:05Z 192.168.1.50 GET /api/products 200 100ms
+
+GET /api/users 200
+POST /api/login 401
+GET /api/users/12 200
+
+{"timestamp":"2024-03-15T14:23:10Z","method":"GET","path":"/api/orders","status":200,"time":"80ms"}
+
+INVALID LINE HERE
+RANDOM TEXT WITHOUT FORMAT
+2024-03-15T14:23:11Z 192.168.1.99 GET /api/cart - 90ms

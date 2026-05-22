@@ -20,31 +20,25 @@ app.post("/analyze", upload.single("file"), (req, res) => {
     if (!line) continue;
     total_lines++;
 
-   let parts = line.split(" ")
-    let method = parts[0];
-    let path = parts[1];
-    let status = parts[2]?parts[2].replace(/\r/g, "") : "-";
+    let methodMatch = line.match(/\b(GET|POST|PUT|DELETE)\b/);
+    let pathMatch = line.match(/\/api\/[a-zA-Z0-9\/_-]*/);
+    let statusMatch = line.match(/\b(200|201|301|302|400|401|403|404|500)\b/);
 
- 
-    
-    if (!["GET","POST","PUT","DELETE"].includes(method)) {
+    if (!methodMatch || !pathMatch) {
       bad_lines++;
       continue;
-    };
-
-    if (endpoints[path]) {
-      endpoints[path]++;
-    } else {
-      endpoints[path] = 1;
     }
+    let method = methodMatch[0];
+    let path = pathMatch[0];
+    let status = statusMatch ? statusMatch[0] : "-";
+
+    endpoints[path] = (endpoints[path] || 0) + 1;
+
     if (status !== "-") {
-      if (status_counts[status]) {
-        status_counts[status]++;
-      } else {
-        status_counts[status] = 1;
-      }
+      status_counts[status] = (status_counts[status] || 0) + 1;
     }
   }
+
   res.json({
     total_lines,
     bad_lines,
