@@ -16,18 +16,21 @@ app.post("/analyze", upload.single("file"), (req, res) => {
   let status_counts = {};
 
   for (let i = 0; i < lines.length; i++) {
-    let line = lines[i];
-    if (!line.trim()) continue;
+    let line = lines[i].trim().replace(/\r/g, "");
+    if (!line) continue;
     total_lines++;
 
-    let parts = line.split(" ");
-    if (parts.length < 3) {
-      bad_lines++;
-      continue;
-    }
+   let parts = line.split(" ")
     let method = parts[0];
     let path = parts[1];
-    let status = parts[2] || "-";
+    let status = parts[2]?parts[2].replace(/\r/g, "") : "-";
+
+ 
+    
+    if (!["GET","POST","PUT","DELETE"].includes(method)) {
+      bad_lines++;
+      continue;
+    };
 
     if (endpoints[path]) {
       endpoints[path]++;
